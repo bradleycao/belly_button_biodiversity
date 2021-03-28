@@ -6,4 +6,4 @@ In this project, I helped Roza to visualize the bacterial data for each voluntee
 
 To achieve that, I utilized Plotly.js, a JavaScript data visualization library, to create an interactive data dashboard for the web. Then, I deployed the project onto a GitHub public server so I can share the project with others.
 
-
+![Web Page Ovierview](static/images/weboverview.png)
