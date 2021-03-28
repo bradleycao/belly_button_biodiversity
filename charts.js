@@ -37,7 +37,6 @@ function buildMetadata(sample) {
     // Filter the data for the object with the desired sample number
     var resultArray = metadata.filter(sampleObj => sampleObj.id == sample);
     var result = resultArray[0];
-   
     // Use d3 to select the panel with id of `#sample-metadata`
     var PANEL = d3.select("#sample-metadata");
 
@@ -54,70 +53,40 @@ function buildMetadata(sample) {
   });
 }
 
-// Create the buildChart function.
+// 1. Create the buildCharts function.
 function buildCharts(sample) {
-  // Use d3.json to load the samples.json file 
+  // 2. Use d3.json to load and retrieve the samples.json file 
   d3.json("samples.json").then((data) => {
-    console.log(data);
+    // 3. Create a variable that holds the samples array. 
+    var mainArray = data.samples;
+    // 4. Create a variable that filters the samples for the object with the desired sample number.
+    var resultArray = mainArray.filter(sampleObj => sampleObj.id == sample);
+    //  5. Create a variable that holds the first sample in the array.
+    var result = resultArray[0];
 
-    // Create a variable that holds the samples array. 
-    var samples = data.samples
-    // Create a variable that filters the samples for the object with the desired sample number.
-    var resultArray = samples.filter(sampleObj => sampleObj.id == sample);
-    // 1. Create a variable that filters the metadata array for the object with the desired sample number.
+    // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
+    var otu_ids = result.otu_ids
+    var otu_labels = results.otu_labels
+    var sample_values = results.sample_values
+    // 7. Create the yticks for the bar chart.
+    // Hint: Get the the top 10 otu_ids and map them in descending order  
+    //  so the otu_ids with the most bacteria are last. 
 
-    // Create a variable that holds the first sample in the array.
-  
+    var yticks = otu_ids.slice(0,10).map(otuid => `OTU ${otuid}`).reverse()
 
-    // 2. Create a variable that holds the first sample in the metadata array.
-    
-
-    // Create variables that hold the otu_ids, otu_labels, and sample_values.
-
-
-    // 3. Create a variable that holds the washing frequency.
-   
-
-    // Create the yticks for the bar chart.
-    // Hint: Get the the top 10 otu_ids and map them in descending order 
-    // so the otu_ids with the most bacteria are last. 
-    var yticks = 
-
-    // Create the trace for the bar chart. 
-    var barData = [
-      
-    ];
-    // Create the layout for the bar chart. 
+    // 8. Create the trace for the bar chart. 
+    var barData = [{
+      x: sample_values.slice(0,10).reverse(),
+      y: yticks,
+      orientation: "h",
+      text: otu_labels.slice(0,10).reverse(),
+      type: "bar",
+    }];
+    // 9. Create the layout for the bar chart. 
     var barLayout = {
-      
+     title: "Top 10 bacterial species (OTUs)"
     };
-
-    // Use Plotly to plot the data with the layout. 
-
-    // Create the trace for the bubble chart.
-    var bubbleData = [
-   
-    ];
-
-    // Create the layout for the bubble chart.
-    var bubbleLayout = {
-      
-    };
-
-    // D2: 3. Use Plotly to plot the data with the layout.
-   
-    
-    // 4. Create the trace for the gauge chart.
-    var gaugeData = [
-     
-    ];
-    
-    // 5. Create the layout for the gauge chart.
-    var gaugeLayout = { 
-     
-    };
-
-    // 6. Use Plotly to plot the gauge data and layout.
-    
+    // 10. Use Plotly to plot the data with the layout. 
+    Plotly.newPlot("bar", barData, barLayout);
   });
 }
